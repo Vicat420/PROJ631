@@ -1,0 +1,92 @@
+# -*- coding: utf-8 -*-
+"""
+Décompression de données codées par la méthode de Huffman
+"""
+
+def recup_alpha(texte):
+    alphabet=[]
+    a=open(texte,"r")
+    a.readline()
+    for ligne in a:
+        alphabet.append((ligne[0],ligne[2]))
+    a.close()
+    return alphabet
+
+def recherche_2_minimum(liste):
+    min1=liste[0]
+    min2=liste[1]
+    for k in liste[2:]:
+        if int(k[1])<int(min1[1]):
+            min1=k
+        elif int(k[1])<int(min2[1]):
+            min2=k
+    if int(min1[1])>int(min2[1]):
+        min1,min2=min2,min1
+    return min1,min2
+            
+class Arbre:
+    def __init__(self,fg,fd,label,frequence):
+        self.fg=fg
+        self.fd=fd
+        self.label=label
+        self.frequence=frequence
+    
+    def __str__(self):
+        return self.label  
+    
+def creation_arbre(texte_freq):
+    nodes=[]
+    alphabet=recup_alpha(texte_freq)
+    min1,min2=recherche_2_minimum(alphabet)
+    for lettre in alphabet:
+        node=Arbre(None,None,lettre[0],lettre[1])
+        nodes.append(node)
+    while len(alphabet)>1:
+        min1,min2=recherche_2_minimum(alphabet)
+        for node1 in nodes:
+            for node2 in nodes:
+               if node1.label==min1[0] and node2.label==min2[0]:
+                   node=Arbre(node1,node2,min1[0]+min2[0],int(min1[1])+int(min2[1]))
+                   nodes.append(node)
+                   del alphabet[alphabet.index(min1)]
+                   del alphabet[alphabet.index(min2)]
+                   alphabet.append((node.label,node.frequence))
+    return nodes
+
+def decompression(texte_freq,texte_comp):
+    #faire comme recherche_chemin mais par octet + faire le dic pour adccélerer le programme
+    dico=[]
+    texte=open(texte_comp)
+    octet=''
+    node_actuel_prim=creation_arbre(texte_freq)[-1]
+    texte_decomp=open("C:\\Users\\Admin\\Desktop\\POLYTECH\\Projet Algo\\texte_decomp.txt","w")
+    for ligne in texte:
+#        for caractere in ligne:
+#            caractere=bin(ord(caractere))[2:]
+#            while len(caractere)<8:
+#                caractere="0"+caractere
+            for bit in ligne:
+                node_actuel=node_actuel_prim
+                if bit == "1" or bit == "0":
+                    octet+=bit
+                    for element in dico:
+                        if element[1]==octet:
+                            texte_decomp.write(element[0])
+                            octet=''
+                    if octet != '':
+                        for bit_2 in octet:
+                            if node_actuel.fg != None and node_actuel.fd != None:
+                                if bit_2 == "0":
+                                    node_actuel=node_actuel.fg
+                                elif bit_2 =="1":
+                                    node_actuel=node_actuel.fd
+                    if node_actuel.fg == None and node_actuel.fd == None:
+                        texte_decomp.write(str(node_actuel.label))
+                        dico.append((str(node_actuel.label),octet))
+                        octet=''                
+    texte.close()
+    texte_decomp.close()
+    
+    
+    
+            
