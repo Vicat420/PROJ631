@@ -1,0 +1,243 @@
+package SIBRA;
+
+import java.util.ArrayList;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.io.FileNotFoundException;
+
+public class Main {
+
+	/**
+	 * @param args
+	 * @throws IOException 
+	 */
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub			
+	
+		Station lycee_de_poisy = new Station("Lycée de Poisy");
+		Station poisy_college = new Station("Poisy Collège");
+		Station vernod = new Station("Vernod");
+		Station meythet_le_rabelais = new Station("Meythet Le Rabelais");
+		Station chorus = new Station("Chorus");
+		Station mandallaz = new Station("Mandallaz");
+		Station gare_1 = new Station("Gare 1");
+		Station france_barattes = new Station("France Barattes");
+		Station ces_barattes = new Station("CES Barattes");
+		Station vignieres_1 = new Station("Vignières 1");
+		Station ponchy = new Station("Ponchy");
+		Station parc_des_glaisins = new Station("Parc des Glaisins");
+		Station piscine_patinoire = new Station("Piscine-Patinoire");		
+		Station arcadium = new Station("Arcadium");
+		Station parc_des_sports = new Station("Parc des Sports");
+		Station place_des_romains = new Station("Place des Romains");		
+		Station courier = new Station("Courier");
+		Station gare_2 = new Station("Gare 2");		
+		Station bonlieu = new Station("Bonlieu");
+		Station prefecture_paquier = new Station("Préfecture Pâquier");
+		Station imperial = new Station("Impérial");
+		Station pommaries = new Station("Pommaries");
+		Station vignieres_2 = new Station("Vignières");
+		Station campus = new Station("Campus");
+			
+		ArrayList<Station> ligne_1 = new ArrayList<Station>();
+		ArrayList<Station> ligne_2 = new ArrayList<Station>();
+		ligne_1.add(lycee_de_poisy);
+		ligne_1.add(poisy_college);
+		ligne_1.add(vernod);
+		ligne_1.add(meythet_le_rabelais);
+		ligne_1.add(chorus);
+		ligne_1.add(mandallaz);
+		ligne_1.add(gare_1);
+		ligne_1.add(france_barattes);
+		ligne_1.add(ces_barattes);
+		ligne_1.add(vignieres_1);
+		ligne_1.add(ponchy);
+		ligne_2.add(piscine_patinoire);
+		ligne_2.add(arcadium);
+		ligne_2.add(parc_des_sports);
+		ligne_2.add(place_des_romains);
+		ligne_2.add(courier);
+		ligne_2.add(gare_2);
+		ligne_2.add(bonlieu);
+		ligne_2.add(prefecture_paquier);
+		ligne_2.add(imperial);
+		ligne_2.add(pommaries);
+		ligne_2.add(vignieres_2);
+		ligne_2.add(campus);
+			
+		Ligne poisy_parcdesglaisins = new Ligne(1,ligne_1);
+		Ligne piscine_patinoire_campus = new Ligne(2,ligne_2);
+		
+		System.out.println(poisy_parcdesglaisins.getStations().contains(lycee_de_poisy));
+		
+		recup_horaire(lycee_de_poisy,1,2);
+		System.out.println(calcul_itineraire(vernod,chorus,"6:10"));
+		
+	}
+	
+	public static ArrayList<String> recup_horaire(Station station, int numero, int sens) throws IOException{
+		final String SEPARATEUR = " ";
+		ArrayList<String> liste = new ArrayList<String>();
+		if (sens==1) {
+			if (numero == 1) {
+				RandomAccessFile file = new RandomAccessFile("C:/Users/frang/eclipse-workspace/PROJ_ALGO2/data/1_Poisy-ParcDesGlaisins.txt", "r");
+				String str;
+				file.readLine();
+				file.readLine();
+				str = file.readLine();
+				String mots[] = str.split(SEPARATEUR);
+		        for (int i = 0; i < mots.length;i++) {
+		        	if (!(mots[i].equals("-")))
+		            if (mots[i].substring(mots[i].length()-3, mots[i].length()-2).equals(":")) {
+		            	liste.add(mots[i]);
+		            }
+		        }
+		        file.close();
+			}
+		}
+		else{
+			if (numero == 1) {
+				RandomAccessFile file = new RandomAccessFile("C:/Users/frang/eclipse-workspace/PROJ_ALGO2/data/1_Poisy-ParcDesGlaisins.txt", "r");
+				String str;
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				file.readLine();
+				str = file.readLine();
+				String mots[] = str.split(SEPARATEUR);
+		        for (int i = 0; i < mots.length;i++) {
+		        	if (!(mots[i].equals("-")))
+		            if (mots[i].substring(mots[i].length()-3, mots[i].length()-2).equals(":")) {
+		            	liste.add(mots[i]);
+		            }
+		        }
+		        file.close();
+			}
+		}
+		System.out.println(liste);
+		return liste;
+	}
+
+	
+	public static int calcul_itineraire(Station station_1, Station station_2, String heure_depart) throws NumberFormatException,IOException {
+		Station lycee_de_poisy = new Station("Lycée de Poisy");
+		Station poisy_college = new Station("Poisy Collège");
+		Station vernod = new Station("Vernod");
+		Station meythet_le_rabelais = new Station("Meythet Le Rabelais");
+		Station chorus = new Station("Chorus");
+		Station mandallaz = new Station("Mandallaz");
+		Station gare_1 = new Station("Gare 1");
+		Station france_barattes = new Station("France Barattes");
+		Station ces_barattes = new Station("CES Barattes");
+		Station vignieres_1 = new Station("Vignières 1");
+		Station ponchy = new Station("Ponchy");
+		Station parc_des_glaisins = new Station("Parc des Glaisins");
+		Station piscine_patinoire = new Station("Piscine-Patinoire");		
+		Station arcadium = new Station("Arcadium");
+		Station parc_des_sports = new Station("Parc des Sports");
+		Station place_des_romains = new Station("Place des Romains");		
+		Station courier = new Station("Courier");
+		Station gare_2 = new Station("Gare 2");		
+		Station bonlieu = new Station("Bonlieu");
+		Station prefecture_paquier = new Station("Préfecture Pâquier");
+		Station imperial = new Station("Impérial");
+		Station pommaries = new Station("Pommaries");
+		Station vignieres_2 = new Station("Vignières");
+		Station campus = new Station("Campus");
+			
+		ArrayList<Station> ligne_1 = new ArrayList<Station>();
+		ArrayList<Station> ligne_2 = new ArrayList<Station>();
+		ligne_1.add(lycee_de_poisy);
+		ligne_1.add(poisy_college);
+		ligne_1.add(vernod);
+		ligne_1.add(meythet_le_rabelais);
+		ligne_1.add(chorus);
+		ligne_1.add(mandallaz);
+		ligne_1.add(gare_1);
+		ligne_1.add(france_barattes);
+		ligne_1.add(ces_barattes);
+		ligne_1.add(vignieres_1);
+		ligne_1.add(ponchy);
+		ligne_2.add(piscine_patinoire);
+		ligne_2.add(arcadium);
+		ligne_2.add(parc_des_sports);
+		ligne_2.add(place_des_romains);
+		ligne_2.add(courier);
+		ligne_2.add(gare_2);
+		ligne_2.add(bonlieu);
+		ligne_2.add(prefecture_paquier);
+		ligne_2.add(imperial);
+		ligne_2.add(pommaries);
+		ligne_2.add(vignieres_2);
+		ligne_2.add(campus);
+		
+		Ligne poisy_parcdesglaisins = new Ligne(1,ligne_1);
+		Ligne piscine_patinoire_campus = new Ligne(2,ligne_2);
+		
+		if ((poisy_parcdesglaisins.getStations().contains(station_1) && poisy_parcdesglaisins.getStations().contains(station_2)) || (piscine_patinoire_campus.getStations().contains(station_1) && piscine_patinoire_campus.getStations().contains(station_2))) {
+			if (poisy_parcdesglaisins.getStations().indexOf(station_1) > poisy_parcdesglaisins.getStations().indexOf(station_1)) {
+				for (String horaire_1 : recup_horaire(station_1,1,1)) {
+					if (Integer.parseInt(horaire_1.substring(0,2)) == Integer.parseInt(heure_depart.substring(0,2)) && Integer.parseInt(horaire_1.substring(3,5)) > Integer.parseInt(heure_depart.substring(3,5))) {
+						String horaire_2 = recup_horaire(station_2,1,1).get(recup_horaire(station_1,1,1).indexOf(horaire_1));
+						if (Integer.parseInt(horaire_1.substring(0,2))== Integer.parseInt(horaire_2.substring(0,2))) {
+							return Integer.parseInt(horaire_1.substring(3,5))- Integer.parseInt(horaire_2.substring(3,5));
+						}
+						else {
+						 return (60-Integer.parseInt(horaire_1.substring(3,5))) + Integer.parseInt(horaire_2.substring(3,5));
+						}
+					
+					}
+				}
+			}
+			else {
+				for (String horaire_1 : recup_horaire(station_2,1,1)) {
+					if (Integer.parseInt(horaire_1.substring(0,2)) == Integer.parseInt(heure_depart.substring(0,2)) && Integer.parseInt(horaire_1.substring(3,5)) > Integer.parseInt(heure_depart.substring(3,5))) {
+						String horaire_2 = recup_horaire(station_1,1,1).get(recup_horaire(station_2,1,1).indexOf(horaire_1));
+						if (Integer.parseInt(horaire_1.substring(0,2))== Integer.parseInt(horaire_2.substring(0,2))) {
+							return Integer.parseInt(horaire_1.substring(3,5))- Integer.parseInt(horaire_2.substring(3,5));
+						}
+						else {
+						 return (60-Integer.parseInt(horaire_1.substring(3,5))) + Integer.parseInt(horaire_2.substring(3,5));
+						}
+					}				
+		return-1;
+				}
+			}
+		}
+	}
+}
+
+public class Station {
+	private String nom;
+	
+	
+	public Station(String nom) {
+		super();
+		this.nom = nom;
+	}
+}
+
+public class Ligne {
+	private int numero;
+	private ArrayList<Station> stations = new ArrayList<Station>();
+	
+	
+	public Ligne(int numero, ArrayList<Station> stations) {
+		super();
+		this.numero = numero;
+		this.stations = stations;
+	}
+	public ArrayList<Station> getStations() {
+		return stations;
+	}
